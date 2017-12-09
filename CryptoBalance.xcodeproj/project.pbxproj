@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A15C59C11FDC7F90003AE23E /* PricesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15C59C01FDC7F90003AE23E /* PricesViewController.swift */; };
+		A15C59C31FDC7FB7003AE23E /* AccontsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15C59C21FDC7FB7003AE23E /* AccontsViewController.swift */; };
+		A15C59C61FDC8017003AE23E /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15C59C51FDC8017003AE23E /* Request.swift */; };
 		A1B7A2B21FDC442100851144 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B7A2B11FDC442100851144 /* AppDelegate.swift */; };
 		A1B7A2B71FDC442100851144 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1B7A2B51FDC442100851144 /* Main.storyboard */; };
 		A1B7A2BA1FDC442100851144 /* CryptoBalance.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A1B7A2B81FDC442100851144 /* CryptoBalance.xcdatamodeld */; };
@@ -15,6 +18,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A15C59C01FDC7F90003AE23E /* PricesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PricesViewController.swift; sourceTree = "<group>"; };
+		A15C59C21FDC7FB7003AE23E /* AccontsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccontsViewController.swift; sourceTree = "<group>"; };
+		A15C59C51FDC8017003AE23E /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		A1B7A2AE1FDC442100851144 /* CryptoBalance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptoBalance.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1B7A2B11FDC442100851144 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A1B7A2B61FDC442100851144 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -35,6 +41,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A15C59C41FDC7FEF003AE23E /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				A15C59C51FDC8017003AE23E /* Request.swift */,
+			);
+			path = Client;
+			sourceTree = "<group>";
+		};
 		A1B7A2A51FDC442100851144 = {
 			isa = PBXGroup;
 			children = (
@@ -67,6 +81,7 @@
 		A1B7A2C61FDC563E00851144 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A15C59C41FDC7FEF003AE23E /* Client */,
 				A1B7A2B81FDC442100851144 /* CryptoBalance.xcdatamodeld */,
 			);
 			path = Model;
@@ -75,6 +90,8 @@
 		A1B7A2C71FDC564700851144 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				A15C59C01FDC7F90003AE23E /* PricesViewController.swift */,
+				A15C59C21FDC7FB7003AE23E /* AccontsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -160,6 +177,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A15C59C31FDC7FB7003AE23E /* AccontsViewController.swift in Sources */,
+				A15C59C11FDC7F90003AE23E /* PricesViewController.swift in Sources */,
+				A15C59C61FDC8017003AE23E /* Request.swift in Sources */,
 				A1B7A2BA1FDC442100851144 /* CryptoBalance.xcdatamodeld in Sources */,
 				A1B7A2B21FDC442100851144 /* AppDelegate.swift in Sources */,
 			);
