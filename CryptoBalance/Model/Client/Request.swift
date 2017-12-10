@@ -24,15 +24,30 @@ public class Request: NSObject {
     }
     
     public func fetch(_ handler: @escaping (Any?, NSError?) -> Void) {
-        let pathExtension = self.requestType == .isAlive ? KrakenKey.RequestType.Time : KrakenKey.RequestType.Ticker
+        let isAliveRequest = self.requestType == .isAlive
+        let pathExtension = isAliveRequest ? KrakenKey.RequestType.Time : KrakenKey.RequestType.Ticker
         let url = urlWithParameters(withPathExtension: pathExtension)
         let request = requestWithHeaders(url, method: "GET")
         let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
-            print("now I'm in the fetch dataTask")
+  
             guard self.responseInSuccessRange(response, task: "fetch", handler: handler) else {
                 return
             }
-            handler("something here", nil)
+            guard let data = self.dataFromResponse(data, task: "fetch", handler: handler) else {
+                return
+            }
+
+            if isAliveRequest {
+                return handler(nil, nil)
+            }
+            
+            do {
+                let currencyItem = try JSONDecoder().decode(CurrencyData.self, from: data)
+                return handler(currencyItems, nil)
+            } catch {
+                print("error")
+            }
+            
         }
         task.resume()
     }
@@ -66,6 +81,11 @@ public class Request: NSObject {
     
 //    let currencyItems = JSONDecoder().decode(CurrencyItem.self, from: jsonData)
 //
+    private func sendError(_ errorString: String, task: String, handler: (_ result: AnyObject?, _ error: NSError?) -> Void) {
+        let userInfo = [NSLocalizedDescriptionKey: errorString]
+        handler(nil, NSError(domain: task, code: 1, userInfo: userInfo))
+    }
+    
     private func responseInSuccessRange(_ response: URLResponse?, task: String, handler: (_ result: AnyObject?, _ error: NSError?) -> Void) -> Bool {
         let successRange: Range<Int> = 200..<300
         guard let statusCode = (response as? HTTPURLResponse)?.statusCode, successRange ~= statusCode else {
@@ -84,11 +104,6 @@ public class Request: NSObject {
         return request
     }
     
-    private func sendError(_ errorString: String, task: String, handler: (_ result: AnyObject?, _ error: NSError?) -> Void) {
-        let userInfo = [NSLocalizedDescriptionKey: errorString]
-        handler(nil, NSError(domain: task, code: 1, userInfo: userInfo))
-    }
-    
     // substitute the key for the value that is contained within the method name
     private func substituteKeyInString(_ queryString: String, key: String, value: String) -> String? {
         if queryString.range(of: "{\(key)}") != nil {
@@ -96,6 +111,14 @@ public class Request: NSObject {
         } else {
             return nil
         }
+    }
+    
+    private func dataFromResponse(_ data: Data?, task: String, handler: (_ result: AnyObject?, _ error: NSError?) -> Void) -> Data? {
+        guard data != nil else {
+            sendError("There was no data returned by request", task: task, handler: handler)
+            return nil
+        }
+        return data
     }
     
     private struct RequestConstants {
