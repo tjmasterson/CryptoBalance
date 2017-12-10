@@ -1,5 +1,5 @@
 //
-//  AccontsViewController.swift
+//  AccountsViewController.swift
 //  CryptoBalance
 //
 //  Created by Taylor Masterson on 12/9/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AccontsViewController: UIViewController {
+class AccountsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

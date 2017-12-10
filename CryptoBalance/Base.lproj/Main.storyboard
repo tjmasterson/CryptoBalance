@@ -118,7 +118,7 @@
         <!--Prices-->
         <scene sceneID="3aG-0F-7ov">
             <objects>
-                <viewController id="4tS-DX-tgm" sceneMemberID="viewController">
+                <viewController id="4tS-DX-tgm" customClass="PricesViewController" customModule="CryptoBalance" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="OCJ-LX-udr">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
