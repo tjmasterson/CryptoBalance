@@ -15,12 +15,26 @@ public class Request: NSObject {
     public let requestType: RequestType
     
     public enum RequestType {
+        case all
         case isAlive
         case bitcoin
+        case ethereum
+        case liteCoin
+        case dash
+        case zCash
+        case monero
     }
     
     public init(_ requestType: RequestType) {
         self.requestType = requestType
+    }
+    
+    public func fetchAllCurrencies(_ handler: @escaping([Currency]) -> Void) {
+        for currency in KrakenKey.CurrencyCodes.Currencies.allValues {
+            print(currency)
+            
+            // LOOK HERE !! //
+        }
     }
     
     public func fetch(_ handler: @escaping (Any?, NSError?) -> Void) {
@@ -42,10 +56,12 @@ public class Request: NSObject {
             }
             
             do {
-                let currencyItem = try JSONDecoder().decode(CurrencyData.self, from: data)
-                return handler(currencyItems, nil)
+                let currencyData = try JSONDecoder().decode(CurrencyData.self, from: data)
+                return handler(currencyData.currency!, nil)
             } catch {
-                print("error")
+                self.sendError("There was an error parsing the currency request, likely because of an update from Kraken",
+                               task: "fetch",
+                               handler: handler)
             }
             
         }
@@ -53,12 +69,32 @@ public class Request: NSObject {
     }
 
     private func parametersForRequest() -> [String: String]? {
-        switch self.requestType {
-        case .isAlive:
-            return nil
-        case .bitcoin:
-            return [KrakenKey.queryPair: substituteKeyInString(KrakenKey.pair, key: "currencyCode", value: KrakenKey.bitcoinCurrencyCode)!]
+        
+        if self.requestType == .isAlive {
+            return nil // return nil is request is checking for Kraken server status
         }
+        
+        var currencyCode: KrakenKey.CurrencyCodes.Currencies {
+            switch self.requestType {
+            case .bitcoin:
+                return .bitcoin
+            case .ethereum:
+                return .ethereum
+            case .liteCoin:
+                return .liteCoin
+            case .dash:
+                return .dash
+            case .zCash:
+                return .zCash
+            case .monero:
+                return .monero
+            default:
+                return .bitcoin
+            }
+        }
+        
+        let queryPair = substituteKeyInString(KrakenKey.pair, key: "currencyCode", value: currencyCode.rawValue)!
+        return [KrakenKey.queryPair: queryPair]
     }
     
     private func urlWithParameters(withPathExtension: String) -> URL {
@@ -79,8 +115,6 @@ public class Request: NSObject {
         return urlComponents.url!
     }
     
-//    let currencyItems = JSONDecoder().decode(CurrencyItem.self, from: jsonData)
-//
     private func sendError(_ errorString: String, task: String, handler: (_ result: AnyObject?, _ error: NSError?) -> Void) {
         let userInfo = [NSLocalizedDescriptionKey: errorString]
         handler(nil, NSError(domain: task, code: 1, userInfo: userInfo))
@@ -89,7 +123,7 @@ public class Request: NSObject {
     private func responseInSuccessRange(_ response: URLResponse?, task: String, handler: (_ result: AnyObject?, _ error: NSError?) -> Void) -> Bool {
         let successRange: Range<Int> = 200..<300
         guard let statusCode = (response as? HTTPURLResponse)?.statusCode, successRange ~= statusCode else {
-            self.sendError("There was an erro with the request, returned status code outside of success range", task: task, handler: handler)
+            self.sendError("There was an error with the request, returned status code outside of success range", task: task, handler: handler)
             return false
         }
         return true
@@ -133,12 +167,25 @@ public class Request: NSObject {
     struct KrakenKey {
         static let queryPair = "pair"
         static let pair = "X{currencyCode}ZUSD"
-        static let bitcoinCurrencyCode = "XBT"
-        static let ethereumCurrencyCode = "ETH"
-        static let litecoinCurrencyCode = "LTC"
-        static let dashCurrencyCode = "DASH"
-        static let zCashCurrencyCode = "ZEC"
-        static let moneroCurrencyCode = "XMR"
+        struct CurrencyCodes {
+            
+            enum Currencies: String {
+                case bitcoin = "XBT"
+                case ethereum = "ETH"
+                case liteCoin = "LTC"
+                case dash = "DASH"
+                case zCash = "ZEC"
+                case monero = "XMR"
+                static let allValues = [bitcoin, ethereum, liteCoin, dash, zCash, monero]
+            }
+            
+            static let bitcoinCurrencyCode = "XBT"
+            static let ethereumCurrencyCode = "ETH"
+            static let litecoinCurrencyCode = "LTC"
+            static let dashCurrencyCode = "DASH"
+            static let zCashCurrencyCode = "ZEC"
+            static let moneroCurrencyCode = "XMR"
+        }
         struct RequestType {
             static let Ticker = "Ticker"
             static let Time = "Time"

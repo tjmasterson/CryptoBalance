@@ -13,8 +13,8 @@ class PricesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let request = Request.init(.bitcoin)
-        request.fetch { (results, err) in
+        let request = Request.init(.all)
+        request.fetchAllCurrencies { results in
             print("I'm done")
         }
     }

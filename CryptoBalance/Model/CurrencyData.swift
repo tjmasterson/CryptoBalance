@@ -1,5 +1,5 @@
 //
-//  CurrencyItem.swift
+//  CurrencyData.swift
 //  CryptoBalance
 //
 //  Created by Taylor Masterson on 12/9/17.
@@ -9,31 +9,35 @@
 import Foundation
 
 public struct CurrencyData: Codable {
+
+    var currency: Currency?
+    let error: [String]
     
-    let result: [String: CurrencyItem]
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CurrencyKey.self)
+        let nestedContainer = try container.nestedContainer(keyedBy: CurrencyKey.self, forKey: .result)
+        self.error = try container.decode([String].self, forKey: .error)
+        for key in nestedContainer.allKeys {
+            self.currency = try nestedContainer.decode(Currency.self, forKey: .makeKey(name: key.stringValue))
+        }
+    }
     
-    struct CurrencyItem: Codable {
-        
-        let ask: [String] // ask array(<price>, <whole lot volume>, <lot volume>),
-        let bid: [String] // bid array(<price>, <whole lot volume>, <lot volume>),
-        let lastTradeClosed: [String] // last trade closed array(<price>, <lot volume>),
-        let volume: [String] // volume array(<today>, <last 24 hours>),
-        let volumeWeightedAveragePrice: [String] // volume weighted average price array(<today>, <last 24 hours>),
-        let numberOfTrades: [Int] // number of trades array(<today>, <last 24 hours>),
-        let low: [String] // low array(<today>, <last 24 hours>),
-        let high: [String] // high array(<today>, <last 24 hours>),
-        let openingPriceToday: String // today's opening price
-        
-        enum CodingKeys: String, CodingKey {
-            case ask = "a"
-            case bid = "b"
-            case lastTradeClosed = "c"
-            case volume = "v"
-            case volumeWeightedAveragePrice = "p"
-            case numberOfTrades = "t"
-            case low = "l"
-            case high = "h"
-            case openingPriceToday = "o"
+    private struct CurrencyKey: CodingKey {
+        var stringValue: String
+        init?(stringValue: String) {
+            self.stringValue = stringValue
+        }
+        var intValue: Int? { return nil }
+        init?(intValue: Int) { return nil }
+
+        static let error = CurrencyKey(stringValue: "error")!
+        static let result = CurrencyKey(stringValue: "result")!
+        static func makeKey(name: String) -> CurrencyKey {
+            return CurrencyKey(stringValue: name)!
         }
     }
 }
+
+
+
+
