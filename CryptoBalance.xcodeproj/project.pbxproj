@@ -19,6 +19,7 @@
 		A1B7A2BA1FDC442100851144 /* CryptoBalance.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A1B7A2B81FDC442100851144 /* CryptoBalance.xcdatamodeld */; };
 		A1B7A2BC1FDC442100851144 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1B7A2BB1FDC442100851144 /* Assets.xcassets */; };
 		A1B7A2BF1FDC442100851144 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1B7A2BD1FDC442100851144 /* LaunchScreen.storyboard */; };
+		A1DEA33B1FDFFE6300CD546C /* CryptoCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DEA33A1FDFFE6300CD546C /* CryptoCurrency.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		A1B7A2BB1FDC442100851144 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1B7A2BE1FDC442100851144 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A1B7A2C01FDC442100851144 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A1DEA33A1FDFFE6300CD546C /* CryptoCurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoCurrency.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,8 @@
 			isa = PBXGroup;
 			children = (
 				A15C59C51FDC8017003AE23E /* Request.swift */,
+				A15C59C71FDC95E1003AE23E /* CurrencyData.swift */,
+				A1320F271FDDDEAD00E18F05 /* Currency.swift */,
 			);
 			path = Client;
 			sourceTree = "<group>";
@@ -91,10 +95,9 @@
 			children = (
 				A15C59C41FDC7FEF003AE23E /* Client */,
 				A1B7A2B81FDC442100851144 /* CryptoBalance.xcdatamodeld */,
-				A15C59C71FDC95E1003AE23E /* CurrencyData.swift */,
-				A1320F271FDDDEAD00E18F05 /* Currency.swift */,
 				A15C59CC1FDCA86C003AE23E /* Account.swift */,
 				A15C59CE1FDCA89E003AE23E /* Transaction.swift */,
+				A1DEA33A1FDFFE6300CD546C /* CryptoCurrency.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -192,6 +195,7 @@
 				A1320F281FDDDEAD00E18F05 /* Currency.swift in Sources */,
 				A15C59C31FDC7FB7003AE23E /* AccountsViewController.swift in Sources */,
 				A15C59C11FDC7F90003AE23E /* PricesViewController.swift in Sources */,
+				A1DEA33B1FDFFE6300CD546C /* CryptoCurrency.swift in Sources */,
 				A15C59CF1FDCA89E003AE23E /* Transaction.swift in Sources */,
 				A15C59C61FDC8017003AE23E /* Request.swift in Sources */,
 				A1B7A2BA1FDC442100851144 /* CryptoBalance.xcdatamodeld in Sources */,
