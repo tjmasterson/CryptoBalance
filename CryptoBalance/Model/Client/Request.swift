@@ -14,7 +14,7 @@ public class Request: NSObject {
     public let session = URLSession.shared
     public let requestType: RequestType
     
-    public enum RequestType {
+    public enum RequestType: String {
         case all
         case isAlive
         case bitcoin
@@ -23,6 +23,7 @@ public class Request: NSObject {
         case dash
         case zCash
         case monero
+        static let allCurrencyRequestTypes = [bitcoin, ethereum, liteCoin, dash, zCash, monero]
     }
     
     public init(_ requestType: RequestType) {
@@ -30,17 +31,32 @@ public class Request: NSObject {
     }
     
     public func fetchAllCurrencies(_ handler: @escaping([Currency]) -> Void) {
-        for currency in KrakenKey.CurrencyCodes.Currencies.allValues {
-            print(currency)
+        let dispatchGroup = DispatchGroup()
+        var resultingData: [Currency] = []
+        for currency in RequestType.allCurrencyRequestTypes {
+            dispatchGroup.enter()
+            fetch(currency) { (results, error) in
+                if results != nil {
+                    resultingData.append(results as! Currency)
+                }
+                dispatchGroup.leave()
+            }
+        }
+        dispatchGroup.notify(queue: .main) {
+            if resultingData.isEmpty {
+                print("there was an error")
+            } else {
+                handler(resultingData)
+            }
             
-            // LOOK HERE !! //
         }
     }
     
-    public func fetch(_ handler: @escaping (Any?, NSError?) -> Void) {
-        let isAliveRequest = self.requestType == .isAlive
-        let pathExtension = isAliveRequest ? KrakenKey.RequestType.Time : KrakenKey.RequestType.Ticker
-        let url = urlWithParameters(withPathExtension: pathExtension)
+    public func fetch(_ requestType: RequestType? = nil, _ handler: @escaping (Any?, NSError?) -> Void) {
+
+        let pathExtension = buildPathExtension()
+        let parameters = parametersForRequestType(requestType ?? self.requestType)
+        let url = buildURL(withPathExtension: pathExtension, andParameters: parameters)
         let request = requestWithHeaders(url, method: "GET")
         let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
   
@@ -51,13 +67,15 @@ public class Request: NSObject {
                 return
             }
 
-            if isAliveRequest {
+            if self.requestType == .isAlive {
                 return handler(nil, nil)
             }
             
             do {
                 let currencyData = try JSONDecoder().decode(CurrencyData.self, from: data)
-                return handler(currencyData.currency!, nil)
+                var currency = currencyData.currency!
+                currency.name = requestType?.rawValue
+                return handler(currency, nil)
             } catch {
                 self.sendError("There was an error parsing the currency request, likely because of an update from Kraken",
                                task: "fetch",
@@ -67,15 +85,19 @@ public class Request: NSObject {
         }
         task.resume()
     }
+    
+    private func buildPathExtension() -> String {
+        return self.requestType == .isAlive ? KrakenKey.RequestType.Time : KrakenKey.RequestType.Ticker
+    }
 
-    private func parametersForRequest() -> [String: String]? {
+    private func parametersForRequestType(_ requestType: RequestType) -> [String: String]? {
         
         if self.requestType == .isAlive {
             return nil // return nil is request is checking for Kraken server status
         }
         
         var currencyCode: KrakenKey.CurrencyCodes.Currencies {
-            switch self.requestType {
+            switch requestType {
             case .bitcoin:
                 return .bitcoin
             case .ethereum:
@@ -97,14 +119,14 @@ public class Request: NSObject {
         return [KrakenKey.queryPair: queryPair]
     }
     
-    private func urlWithParameters(withPathExtension: String) -> URL {
+    private func buildURL(withPathExtension: String, andParameters parameters: [String: String]?) -> URL {
         
         var urlComponents = URLComponents()
         urlComponents.scheme = RequestConstants.APIScheme
         urlComponents.host = KrakenConstants.APIHost
         urlComponents.path = KrakenConstants.APIPath + withPathExtension
 
-        if let parameters = parametersForRequest() {
+        if let parameters = parameters {
             urlComponents.queryItems = [URLQueryItem]()
             for (key, value) in parameters {
                 let queryItem = URLQueryItem(name: key, value: "\(value)")
@@ -168,7 +190,6 @@ public class Request: NSObject {
         static let queryPair = "pair"
         static let pair = "X{currencyCode}ZUSD"
         struct CurrencyCodes {
-            
             enum Currencies: String {
                 case bitcoin = "XBT"
                 case ethereum = "ETH"
@@ -178,13 +199,6 @@ public class Request: NSObject {
                 case monero = "XMR"
                 static let allValues = [bitcoin, ethereum, liteCoin, dash, zCash, monero]
             }
-            
-            static let bitcoinCurrencyCode = "XBT"
-            static let ethereumCurrencyCode = "ETH"
-            static let litecoinCurrencyCode = "LTC"
-            static let dashCurrencyCode = "DASH"
-            static let zCashCurrencyCode = "ZEC"
-            static let moneroCurrencyCode = "XMR"
         }
         struct RequestType {
             static let Ticker = "Ticker"

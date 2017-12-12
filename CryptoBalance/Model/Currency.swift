@@ -18,6 +18,7 @@ public struct Currency: Codable {
     let low: [String] // low array(<today>, <last 24 hours>),
     let high: [String] // high array(<today>, <last 24 hours>),
     let openingPriceToday: String // today's opening price
+    var name: String? = nil
 
     private enum CodingKeys: String, CodingKey {
         case ask = "a"

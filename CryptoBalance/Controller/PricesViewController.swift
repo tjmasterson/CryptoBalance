@@ -15,7 +15,7 @@ class PricesViewController: UIViewController {
         
         let request = Request.init(.all)
         request.fetchAllCurrencies { results in
-            print("I'm done")
+            print(results)
         }
     }
 }
