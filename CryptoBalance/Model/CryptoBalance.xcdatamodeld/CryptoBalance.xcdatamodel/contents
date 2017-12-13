@@ -14,6 +14,7 @@
         <attribute name="bid" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="high" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="lastTradeClosed" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="lastUpdated" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="low" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="numberOfTrades" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -31,6 +32,6 @@
     <elements>
         <element name="Account" positionX="-308" positionY="-18" width="128" height="148"/>
         <element name="Transaction" positionX="-63" positionY="-18" width="128" height="118"/>
-        <element name="CryptoCurrency" positionX="-189" positionY="45" width="128" height="195"/>
+        <element name="CryptoCurrency" positionX="-189" positionY="45" width="128" height="210"/>
     </elements>
 </model>

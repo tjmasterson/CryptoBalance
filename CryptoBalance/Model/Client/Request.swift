@@ -30,7 +30,15 @@ public class Request: NSObject {
         self.requestType = requestType
     }
     
-    public func fetchAllCurrencies(_ handler: @escaping([Currency]) -> Void) {
+//    func whatThread(_ whereAmI: String) {
+//        if Thread.isMainThread {
+//            print(whereAmI, "on main thread")
+//        } else {
+//            print(whereAmI, "off main thread")
+//        }
+//    }
+    
+    public func fetchAllCurrencies(_ handler: @escaping(Any?, NSError?) -> Void) {
         let dispatchGroup = DispatchGroup()
         var resultingData: [Currency] = []
         for currency in RequestType.allCurrencyRequestTypes {
@@ -44,9 +52,9 @@ public class Request: NSObject {
         }
         dispatchGroup.notify(queue: .main) {
             if resultingData.isEmpty {
-                print("there was an error")
+                self.sendError("Kraken servers seems to be working, but there is no data for any currencies.", task: "fetchAllCurrecies", handler: handler)
             } else {
-                handler(resultingData)
+                handler(resultingData, nil)
             }
             
         }
@@ -137,12 +145,12 @@ public class Request: NSObject {
         return urlComponents.url!
     }
     
-    private func sendError(_ errorString: String, task: String, handler: (_ result: AnyObject?, _ error: NSError?) -> Void) {
+    private func sendError(_ errorString: String, task: String, handler: (_ result: Any?, _ error: NSError?) -> Void) {
         let userInfo = [NSLocalizedDescriptionKey: errorString]
         handler(nil, NSError(domain: task, code: 1, userInfo: userInfo))
     }
     
-    private func responseInSuccessRange(_ response: URLResponse?, task: String, handler: (_ result: AnyObject?, _ error: NSError?) -> Void) -> Bool {
+    private func responseInSuccessRange(_ response: URLResponse?, task: String, handler: (_ result: Any?, _ error: NSError?) -> Void) -> Bool {
         let successRange: Range<Int> = 200..<300
         guard let statusCode = (response as? HTTPURLResponse)?.statusCode, successRange ~= statusCode else {
             self.sendError("There was an error with the request, returned status code outside of success range", task: task, handler: handler)
@@ -169,7 +177,7 @@ public class Request: NSObject {
         }
     }
     
-    private func dataFromResponse(_ data: Data?, task: String, handler: (_ result: AnyObject?, _ error: NSError?) -> Void) -> Data? {
+    private func dataFromResponse(_ data: Data?, task: String, handler: (_ result: Any?, _ error: NSError?) -> Void) -> Data? {
         guard data != nil else {
             sendError("There was no data returned by request", task: task, handler: handler)
             return nil
