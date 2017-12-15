@@ -23,19 +23,32 @@ class CryptoCurrency: NSManagedObject {
             if matches.count > 0 {
                 assert(matches.count == 1, "CryptoCurrency.updateOrCreate -- database error!")
                 let cryptocurrency = matches.last!
-                print("do some updating here")
-                return cryptocurrency
+                return cryptocurrency.updateFromCurrency(currency, into: context)
+                
             }
         } catch {
             print(error)
             throw error
         }
         
-        let cryptocurrency = CryptoCurrency(context: context)
-        cryptocurrency.ask
+        let cryptoCurrency = self.createFromCurrency(currency, into: context)
+        return cryptoCurrency
     }
     
-    func createFromCurrency(_ currency: Currency) {
-        
+    func updateFromCurrency(_ currency: Currency, into context: NSManagedObjectContext) -> CryptoCurrency {
+        self.lastTradeClosed = CryptoCurrency.roundPrice(currency.lastTradeClosed.first!)
+        return self
+    }
+    
+    class func createFromCurrency(_ currency: Currency, into context: NSManagedObjectContext) -> CryptoCurrency {
+        let cryptoCurrency = CryptoCurrency(context: context)
+        cryptoCurrency.name = currency.name!
+        cryptoCurrency.lastTradeClosed = self.roundPrice(currency.lastTradeClosed.first!)
+        return cryptoCurrency
+    }
+    
+    class func roundPrice(_ price: String) -> Double {
+        let p = Double(price)!
+        return Double(round(p * 100) / 100)
     }
 }
