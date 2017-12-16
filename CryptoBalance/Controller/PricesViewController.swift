@@ -9,11 +9,21 @@
 import UIKit
 import CoreData
 
-class PricesViewController: UIViewController {
+class PricesViewController: UIViewController, NSFetchedResultsControllerDelegate  {
 
-    var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
+    var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer {
+        didSet {
+            print("here?")
+            updateUI()
+        }
+    }
     
-    var fetchedResultsController: NSFetchedResultsController<CryptoCurrency>?
+    var fetchedResultsController: NSFetchedResultsController<CryptoCurrency>? {
+        didSet {
+            fetchedResultsController?.delegate = self
+            self.tableView?.reloadData()
+        }
+    }
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -22,6 +32,7 @@ class PricesViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         fetchAllCurrencies()
+        updateUI()
         
     }
     
@@ -37,18 +48,39 @@ class PricesViewController: UIViewController {
     }
     
     private func updateDatabase(with currencies: [Currency]) {
-        container?.performBackgroundTask { [weak self] context in
-            for currency in currencies {
-                let _ = try? CryptoCurrency.updateOrCreate(matching: currency, in: context)
+//        container?.performBackgroundTask { [weak self] context in
+        let context = container?.viewContext
+        for currency in currencies {
+            let _ = try? CryptoCurrency.updateOrCreate(matching: currency, in: context!)
+        }
+        try? context!.save()
+        printDatabaseStatistics()
+//        }
+    }
+    
+    private func printDatabaseStatistics() {
+        if let context = container?.viewContext {
+            context.perform {
+                if Thread.isMainThread {
+                    print("on main thread")
+                } else {
+                    print("off main thread")
+                }
+                if let currencyCount = try? context.count(for: CryptoCurrency.fetchRequest()) {
+                    print("\(currencyCount) CryproCurrencies")
+                }
             }
-            try? context.save()
         }
     }
     
     private func updateUI() {
         if let context = container?.viewContext {
             let request: NSFetchRequest<CryptoCurrency> = CryptoCurrency.fetchRequest()
-            request.predicate = NSPredicate(format: "all")
+            request.sortDescriptors = [NSSortDescriptor(
+                key: "name",
+                ascending: true,
+                selector: #selector(NSString.localizedCaseInsensitiveCompare(_:))
+                )]
             fetchedResultsController = NSFetchedResultsController<CryptoCurrency>(
                 fetchRequest: request,
                 managedObjectContext: context,
@@ -58,37 +90,22 @@ class PricesViewController: UIViewController {
             fetchedResultsController?.delegate = self
             try? fetchedResultsController?.performFetch()
             tableView.reloadData()
+            print("calling update UI")
         }
     }
 
 }
 
-//override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//    guard let cell = tableView.dequeueReusableCell(withIdentifier: "cellIdentifier", for: indexPath) else {
-//        fatalError("Wrong cell type dequeued")
-//    }
-//    // Set up the cell
-//    guard let object = self.fetchedResultsController?.object(at: indexPath) else {
-//        fatalError("Attempt to configure cell without a managed object")
-//    }
-//    //Populate the cell from the object
-//    return cell
-//}
-//
-//
-//override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//    guard let sections = fetchedResultsController.sections else {
-//        fatalError("No sections in fetchedResultsController")
-//    }
-//    let sectionInfo = sections[section]
-//    return sectionInfo.numberOfObjects
-//}
-
 extension PricesViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func buildValues(for cell: PricesTableViewCell, with fetchedObject: CryptoCurrency) -> PricesTableViewCell {
+        cell.assetTotalValueLabel.text = String(fetchedObject.lastTradeClosed)
+        return cell
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "PricesTableViewCell", for: indexPath) as! PricesTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "PricesTableViewCell", for: indexPath) as? PricesTableViewCell else {
             fatalError("Not able to deque table view cell")
         }
         
@@ -96,7 +113,7 @@ extension PricesViewController: UITableViewDelegate, UITableViewDataSource {
             fatalError("Attempt to configure cell without a managed object")
         }
         
-        return cell
+        return buildValues(for: cell, with: object)
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -104,15 +121,16 @@ extension PricesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let sections = fetchedResultsController?.sections else {
-            fatalError("No sections in fetchedResultsController")
+        guard let sections = fetchedResultsController?.sections, sections.count > 0 else {
+//            fatalError("No sections in fetchedResultsController")
+            return 0
         }
         let sectionInfo = sections[section]
         return sectionInfo.numberOfObjects
     }
 }
 
-extension PricesViewController: NSFetchedResultsControllerDelegate {
+extension PricesViewController {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }

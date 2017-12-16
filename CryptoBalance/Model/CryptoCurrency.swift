@@ -48,7 +48,6 @@ class CryptoCurrency: NSManagedObject {
     }
     
     class func roundPrice(_ price: String) -> Double {
-        let p = Double(price)!
-        return Double(round(p * 100) / 100)
+        return Double(price)!.rounded()
     }
 }
