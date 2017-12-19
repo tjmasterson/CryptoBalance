@@ -13,17 +13,11 @@ class PricesViewController: UIViewController, NSFetchedResultsControllerDelegate
 
     var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer {
         didSet {
-            print("here?")
             updateUI()
         }
     }
     
-    var fetchedResultsController: NSFetchedResultsController<CryptoCurrency>? {
-        didSet {
-            fetchedResultsController?.delegate = self
-            self.tableView?.reloadData()
-        }
-    }
+    var fetchedResultsController: NSFetchedResultsController<CryptoCurrency>?
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -31,9 +25,9 @@ class PricesViewController: UIViewController, NSFetchedResultsControllerDelegate
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.estimatedRowHeight = tableView.rowHeight
+        tableView.rowHeight = UITableViewAutomaticDimension
         fetchAllCurrencies()
-        updateUI()
-        
     }
     
     private func fetchAllCurrencies() {
@@ -48,14 +42,13 @@ class PricesViewController: UIViewController, NSFetchedResultsControllerDelegate
     }
     
     private func updateDatabase(with currencies: [Currency]) {
-//        container?.performBackgroundTask { [weak self] context in
         let context = container?.viewContext
         for currency in currencies {
             let _ = try? CryptoCurrency.updateOrCreate(matching: currency, in: context!)
         }
         try? context!.save()
         printDatabaseStatistics()
-//        }
+        updateUI()
     }
     
     private func printDatabaseStatistics() {
@@ -90,7 +83,6 @@ class PricesViewController: UIViewController, NSFetchedResultsControllerDelegate
             fetchedResultsController?.delegate = self
             try? fetchedResultsController?.performFetch()
             tableView.reloadData()
-            print("calling update UI")
         }
     }
 
@@ -99,7 +91,7 @@ class PricesViewController: UIViewController, NSFetchedResultsControllerDelegate
 extension PricesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func buildValues(for cell: PricesTableViewCell, with fetchedObject: CryptoCurrency) -> PricesTableViewCell {
-        cell.assetTotalValueLabel.text = String(fetchedObject.lastTradeClosed)
+        cell.cyrptoCurrency = fetchedObject
         return cell
     }
     
@@ -122,7 +114,6 @@ extension PricesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let sections = fetchedResultsController?.sections, sections.count > 0 else {
-//            fatalError("No sections in fetchedResultsController")
             return 0
         }
         let sectionInfo = sections[section]

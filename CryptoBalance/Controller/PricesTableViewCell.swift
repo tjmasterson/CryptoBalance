@@ -22,5 +22,30 @@ class PricesTableViewCell: UITableViewCell {
     @IBOutlet weak var amountOwnedValueLabel: UILabel!
     @IBOutlet weak var assetTotalValueLabel: UILabel!
     @IBOutlet weak var dollarsInvestedValueLabel: UILabel!
+    
+    var cyrptoCurrency: CryptoCurrency? {
+        didSet {
+            updateUI()
+        }
+    }
+    
+    private func currencyFormatter(_ price: Double) -> String {
+        let currencyFormatter = NumberFormatter()
+        currencyFormatter.usesGroupingSeparator = true
+        currencyFormatter.numberStyle = NumberFormatter.Style.currency
+        currencyFormatter.locale = NSLocale.current
+        let currency = currencyFormatter.string(for: price)
+        return currency!
+    }
+    
+    private func updateUI() {
+        print(currencyFormatter((cyrptoCurrency?.lastTradeClosed)!))
+        currencyKeyLabel?.text = cyrptoCurrency?.name!
+        currencyValueLabel?.text = currencyFormatter((cyrptoCurrency?.lastTradeClosed)!)
+        amountOwnedValueLabel?.text = currencyFormatter((cyrptoCurrency?.account?.currencyAmount)!)
+        assetTotalValueLabel?.text = currencyFormatter((cyrptoCurrency?.account?.valueInDollars)!)
+        dollarsInvestedValueLabel?.text = currencyFormatter((cyrptoCurrency?.account?.dollarsInvested)!)
+    }
+    
 
 }

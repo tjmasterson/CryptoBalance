@@ -7,11 +7,20 @@
 //
 
 import UIKit
+import CoreData
 
 class AccountsViewController: UIViewController {
 
+    var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
+    
+    var fetchedResultsController: NSFetchedResultsController<Account>?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    private func updateUI() {
+        
     }
 
 }

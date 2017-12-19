@@ -12,4 +12,15 @@ import Foundation
 
 class Account: NSManagedObject {
     
+    class func create(with cryptoCurrency: CryptoCurrency, in context: NSManagedObjectContext) throws -> Account {
+        do {
+            let account = Account(context: context)
+            account.name = cryptoCurrency.name
+            account.currencyValue = cryptoCurrency.lastTradeClosed
+            return account
+        } catch {
+            print(error)
+            throw error
+        }
+    }
 }

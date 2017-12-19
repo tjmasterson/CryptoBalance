@@ -44,10 +44,13 @@ class CryptoCurrency: NSManagedObject {
         let cryptoCurrency = CryptoCurrency(context: context)
         cryptoCurrency.name = currency.name!
         cryptoCurrency.lastTradeClosed = self.roundPrice(currency.lastTradeClosed.first!)
+        cryptoCurrency.account = try? Account.create(with: cryptoCurrency, in: context)
         return cryptoCurrency
     }
     
     class func roundPrice(_ price: String) -> Double {
-        return Double(price)!.rounded()
+        var currentPrice: Double = Double(price)! * 1000
+        currentPrice.round()
+        return currentPrice / 1000
     }
 }
