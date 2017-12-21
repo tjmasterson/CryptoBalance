@@ -14,6 +14,7 @@
 		A15C59C81FDC95E1003AE23E /* CurrencyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15C59C71FDC95E1003AE23E /* CurrencyData.swift */; };
 		A15C59CD1FDCA86C003AE23E /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15C59CC1FDCA86C003AE23E /* Account.swift */; };
 		A15C59CF1FDCA89E003AE23E /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15C59CE1FDCA89E003AE23E /* Transaction.swift */; };
+		A1693D671FEBC2B600BCEC9E /* FetchedResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1693D661FEBC2B600BCEC9E /* FetchedResultsTableViewController.swift */; };
 		A1B7A2B21FDC442100851144 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B7A2B11FDC442100851144 /* AppDelegate.swift */; };
 		A1B7A2B71FDC442100851144 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1B7A2B51FDC442100851144 /* Main.storyboard */; };
 		A1B7A2BA1FDC442100851144 /* CryptoBalance.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A1B7A2B81FDC442100851144 /* CryptoBalance.xcdatamodeld */; };
@@ -32,6 +33,7 @@
 		A15C59C71FDC95E1003AE23E /* CurrencyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyData.swift; sourceTree = "<group>"; };
 		A15C59CC1FDCA86C003AE23E /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		A15C59CE1FDCA89E003AE23E /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		A1693D661FEBC2B600BCEC9E /* FetchedResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedResultsTableViewController.swift; sourceTree = "<group>"; };
 		A1B7A2AE1FDC442100851144 /* CryptoBalance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptoBalance.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1B7A2B11FDC442100851144 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A1B7A2B61FDC442100851144 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 		A1B7A2C71FDC564700851144 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				A1693D661FEBC2B600BCEC9E /* FetchedResultsTableViewController.swift */,
 				A15C59C01FDC7F90003AE23E /* PricesViewController.swift */,
 				A1ED8DF91FE1576F0091E35C /* PricesTableViewCell.swift */,
 				A15C59C21FDC7FB7003AE23E /* AccountsViewController.swift */,
@@ -204,6 +207,7 @@
 				A1DEA33B1FDFFE6300CD546C /* CryptoCurrency.swift in Sources */,
 				A15C59CF1FDCA89E003AE23E /* Transaction.swift in Sources */,
 				A1ED8DFC1FE1578D0091E35C /* AccountsTableViewCell.swift in Sources */,
+				A1693D671FEBC2B600BCEC9E /* FetchedResultsTableViewController.swift in Sources */,
 				A15C59C61FDC8017003AE23E /* Request.swift in Sources */,
 				A1B7A2BA1FDC442100851144 /* CryptoBalance.xcdatamodeld in Sources */,
 				A1B7A2B21FDC442100851144 /* AppDelegate.swift in Sources */,

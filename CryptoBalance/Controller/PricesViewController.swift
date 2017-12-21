@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class PricesViewController: UIViewController, NSFetchedResultsControllerDelegate  {
+class PricesViewController: FetchedResultsTableViewController {
 
     var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer {
         didSet {
@@ -19,14 +19,31 @@ class PricesViewController: UIViewController, NSFetchedResultsControllerDelegate
     
     var fetchedResultsController: NSFetchedResultsController<CryptoCurrency>?
     
-    @IBOutlet weak var tableView: UITableView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.delegate = self
-        tableView.dataSource = self
+        setupTableView()
+        setupRefreshController()
+        fetchAllCurrencies()
+    }
+    
+    private func setupTableView() {
         tableView.estimatedRowHeight = tableView.rowHeight
         tableView.rowHeight = UITableViewAutomaticDimension
+    }
+    
+    private func setupRefreshController() {
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = UIRefreshControl()
+        } else {
+            tableView.addSubview(UIRefreshControl())
+        }
+        
+        tableView.refreshControl?.addTarget(self, action: #selector(refreshCurrencyData(_:)), for: .valueChanged)
+        tableView.refreshControl?.tintColor = UIColor(red:0.25, green:0.72, blue:0.85, alpha:1.0)
+        tableView.refreshControl?.attributedTitle = NSAttributedString(string: "Fetching Currencies ...")
+    }
+    
+    @objc private func refreshCurrencyData(_ sender: Any) {
         fetchAllCurrencies()
     }
     
@@ -49,6 +66,7 @@ class PricesViewController: UIViewController, NSFetchedResultsControllerDelegate
         try? context!.save()
         printDatabaseStatistics()
         updateUI()
+        self.refreshControl?.endRefreshing()
     }
     
     private func printDatabaseStatistics() {
@@ -80,7 +98,7 @@ class PricesViewController: UIViewController, NSFetchedResultsControllerDelegate
                 sectionNameKeyPath: nil,
                 cacheName: nil
             )
-            fetchedResultsController?.delegate = self
+            fetchedResultsController?.delegate = self 
             try? fetchedResultsController?.performFetch()
             tableView.reloadData()
         }
@@ -88,14 +106,9 @@ class PricesViewController: UIViewController, NSFetchedResultsControllerDelegate
 
 }
 
-extension PricesViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func buildValues(for cell: PricesTableViewCell, with fetchedObject: CryptoCurrency) -> PricesTableViewCell {
-        cell.cyrptoCurrency = fetchedObject
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+extension PricesViewController {
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "PricesTableViewCell", for: indexPath) as? PricesTableViewCell else {
             fatalError("Not able to deque table view cell")
@@ -105,14 +118,15 @@ extension PricesViewController: UITableViewDelegate, UITableViewDataSource {
             fatalError("Attempt to configure cell without a managed object")
         }
         
-        return buildValues(for: cell, with: object)
+        cell.cyrptoCurrency = object
+        return cell
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return fetchedResultsController?.sections!.count ?? 0
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let sections = fetchedResultsController?.sections, sections.count > 0 else {
             return 0
         }
@@ -120,42 +134,3 @@ extension PricesViewController: UITableViewDelegate, UITableViewDataSource {
         return sectionInfo.numberOfObjects
     }
 }
-
-extension PricesViewController {
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.beginUpdates()
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        switch type {
-        case .insert:
-            tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
-        case .delete:
-            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
-        case .move:
-            break
-        case .update:
-            break
-        }
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .insert:
-            tableView.insertRows(at: [newIndexPath!], with: .fade)
-        case .delete:
-            tableView.deleteRows(at: [indexPath!], with: .fade)
-        case .update:
-            tableView.reloadRows(at: [indexPath!], with: .fade)
-        case .move:
-            tableView.moveRow(at: indexPath!, to: newIndexPath!)
-        }
-    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.endUpdates()
-    }
-}
-
-
-

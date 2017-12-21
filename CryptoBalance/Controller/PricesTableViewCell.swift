@@ -39,7 +39,6 @@ class PricesTableViewCell: UITableViewCell {
     }
     
     private func updateUI() {
-        print(currencyFormatter((cyrptoCurrency?.lastTradeClosed)!))
         currencyKeyLabel?.text = cyrptoCurrency?.name!
         currencyValueLabel?.text = currencyFormatter((cyrptoCurrency?.lastTradeClosed)!)
         amountOwnedValueLabel?.text = currencyFormatter((cyrptoCurrency?.account?.currencyAmount)!)
