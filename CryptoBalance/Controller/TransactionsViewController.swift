@@ -1,24 +1,25 @@
 //
-//  AccountsViewController.swift
+//  TransactionsViewController.swift
 //  CryptoBalance
 //
-//  Created by Taylor Masterson on 12/9/17.
+//  Created by Taylor Masterson on 12/28/17.
 //  Copyright © 2017 Taylor Masterson. All rights reserved.
 //
 
 import UIKit
 import CoreData
 
-class AccountsViewController: FetchedResultsTableViewController {
+class TransactionsViewController: FetchedResultsTableViewController {
 
     var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
     
-    var fetchedResultsController: NSFetchedResultsController<Account>?
+    var fetchedResultsController: NSFetchedResultsController<Transaction>?
+    
+    var account: Account?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
-        updateUI()
     }
     
     private func setupTableView() {
@@ -28,13 +29,14 @@ class AccountsViewController: FetchedResultsTableViewController {
     
     private func updateUI() {
         if let context = container?.viewContext {
-            let request: NSFetchRequest<Account> = Account.fetchRequest()
+            let request: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+            request.predicate = NSPredicate(format: "account == %@", account!)
             request.sortDescriptors = [NSSortDescriptor(
-                key: "name",
-                ascending: true,
-                selector: #selector(NSString.localizedCaseInsensitiveCompare(_:))
+                key: "date",
+                ascending: true
+//                selector: #selector(NSString.localizedCaseInsensitiveCompare(_:))
                 )]
-            fetchedResultsController = NSFetchedResultsController<Account>(
+            fetchedResultsController = NSFetchedResultsController<Transaction>(
                 fetchRequest: request,
                 managedObjectContext: context,
                 sectionNameKeyPath: nil,
@@ -45,24 +47,11 @@ class AccountsViewController: FetchedResultsTableViewController {
             tableView.reloadData()
         }
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "TransactionsSegue" {
-            if let transactionsViewController = segue.destination as? TransactionsViewController {
-                let indexPath = tableView.indexPathForSelectedRow
-                let account = fetchedResultsController?.object(at: indexPath!)
-                transactionsViewController.account = account
-                transactionsViewController.container = container
-            }
-        }
-    }
-
 }
 
-extension AccountsViewController {
+extension TransactionsViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "AccountsTableViewCell", for: indexPath) as? AccountsTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionsTableViewCell", for: indexPath) as? TransactionsTableViewCell else {
             fatalError("Not able to deque table view cell")
         }
         
@@ -70,11 +59,11 @@ extension AccountsViewController {
             fatalError("Attempt to configure cell without a managed object")
         }
         
-        cell.account = object
+        cell.transaction = object
         return cell
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController?.sections!.count ?? 0
     }
     
@@ -86,5 +75,3 @@ extension AccountsViewController {
         return sectionInfo.numberOfObjects
     }
 }
-
-

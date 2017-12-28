@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		A1320F281FDDDEAD00E18F05 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1320F271FDDDEAD00E18F05 /* Currency.swift */; };
+		A14217161FF5198900544B5C /* TransactionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14217151FF5198900544B5C /* TransactionsViewController.swift */; };
+		A14217181FF51B2E00544B5C /* TransactionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14217171FF51B2E00544B5C /* TransactionsTableViewCell.swift */; };
+		A142171A1FF5259700544B5C /* AddTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14217191FF5259700544B5C /* AddTransactionViewController.swift */; };
+		A142171D1FF52B5000544B5C /* AddTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A142171C1FF52B5000544B5C /* AddTransactionTableViewCell.swift */; };
 		A15C59C11FDC7F90003AE23E /* PricesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15C59C01FDC7F90003AE23E /* PricesViewController.swift */; };
 		A15C59C31FDC7FB7003AE23E /* AccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15C59C21FDC7FB7003AE23E /* AccountsViewController.swift */; };
 		A15C59C61FDC8017003AE23E /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15C59C51FDC8017003AE23E /* Request.swift */; };
@@ -27,6 +31,10 @@
 
 /* Begin PBXFileReference section */
 		A1320F271FDDDEAD00E18F05 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		A14217151FF5198900544B5C /* TransactionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsViewController.swift; sourceTree = "<group>"; };
+		A14217171FF51B2E00544B5C /* TransactionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsTableViewCell.swift; sourceTree = "<group>"; };
+		A14217191FF5259700544B5C /* AddTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionViewController.swift; sourceTree = "<group>"; };
+		A142171C1FF52B5000544B5C /* AddTransactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionTableViewCell.swift; sourceTree = "<group>"; };
 		A15C59C01FDC7F90003AE23E /* PricesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PricesViewController.swift; sourceTree = "<group>"; };
 		A15C59C21FDC7FB7003AE23E /* AccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsViewController.swift; sourceTree = "<group>"; };
 		A15C59C51FDC8017003AE23E /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
@@ -57,6 +65,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A142171B1FF52B1500544B5C /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				A1ED8DF91FE1576F0091E35C /* PricesTableViewCell.swift */,
+				A1ED8DFB1FE1578D0091E35C /* AccountsTableViewCell.swift */,
+				A14217171FF51B2E00544B5C /* TransactionsTableViewCell.swift */,
+				A142171C1FF52B5000544B5C /* AddTransactionTableViewCell.swift */,
+			);
+			path = TableViewCells;
+			sourceTree = "<group>";
+		};
 		A15C59C41FDC7FEF003AE23E /* Client */ = {
 			isa = PBXGroup;
 			children = (
@@ -87,9 +106,9 @@
 			isa = PBXGroup;
 			children = (
 				A1B7A2B11FDC442100851144 /* AppDelegate.swift */,
-				A1B7A2B51FDC442100851144 /* Main.storyboard */,
 				A1B7A2C61FDC563E00851144 /* Model */,
 				A1B7A2C71FDC564700851144 /* Controller */,
+				A1B7A2B51FDC442100851144 /* Main.storyboard */,
 				A1B7A2C81FDC565A00851144 /* Supporting Files */,
 				A1B7A2C01FDC442100851144 /* Info.plist */,
 			);
@@ -111,11 +130,12 @@
 		A1B7A2C71FDC564700851144 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				A142171B1FF52B1500544B5C /* TableViewCells */,
 				A1693D661FEBC2B600BCEC9E /* FetchedResultsTableViewController.swift */,
 				A15C59C01FDC7F90003AE23E /* PricesViewController.swift */,
-				A1ED8DF91FE1576F0091E35C /* PricesTableViewCell.swift */,
 				A15C59C21FDC7FB7003AE23E /* AccountsViewController.swift */,
-				A1ED8DFB1FE1578D0091E35C /* AccountsTableViewCell.swift */,
+				A14217151FF5198900544B5C /* TransactionsViewController.swift */,
+				A14217191FF5259700544B5C /* AddTransactionViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -201,17 +221,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A14217161FF5198900544B5C /* TransactionsViewController.swift in Sources */,
 				A1320F281FDDDEAD00E18F05 /* Currency.swift in Sources */,
 				A15C59C31FDC7FB7003AE23E /* AccountsViewController.swift in Sources */,
 				A15C59C11FDC7F90003AE23E /* PricesViewController.swift in Sources */,
 				A1DEA33B1FDFFE6300CD546C /* CryptoCurrency.swift in Sources */,
 				A15C59CF1FDCA89E003AE23E /* Transaction.swift in Sources */,
 				A1ED8DFC1FE1578D0091E35C /* AccountsTableViewCell.swift in Sources */,
+				A142171D1FF52B5000544B5C /* AddTransactionTableViewCell.swift in Sources */,
+				A142171A1FF5259700544B5C /* AddTransactionViewController.swift in Sources */,
 				A1693D671FEBC2B600BCEC9E /* FetchedResultsTableViewController.swift in Sources */,
 				A15C59C61FDC8017003AE23E /* Request.swift in Sources */,
 				A1B7A2BA1FDC442100851144 /* CryptoBalance.xcdatamodeld in Sources */,
 				A1B7A2B21FDC442100851144 /* AppDelegate.swift in Sources */,
 				A15C59C81FDC95E1003AE23E /* CurrencyData.swift in Sources */,
+				A14217181FF51B2E00544B5C /* TransactionsTableViewCell.swift in Sources */,
 				A1ED8DFA1FE1576F0091E35C /* PricesTableViewCell.swift in Sources */,
 				A15C59CD1FDCA86C003AE23E /* Account.swift in Sources */,
 			);
