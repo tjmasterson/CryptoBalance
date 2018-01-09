@@ -10,7 +10,6 @@
 		A1320F281FDDDEAD00E18F05 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1320F271FDDDEAD00E18F05 /* Currency.swift */; };
 		A14217161FF5198900544B5C /* TransactionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14217151FF5198900544B5C /* TransactionsViewController.swift */; };
 		A14217181FF51B2E00544B5C /* TransactionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14217171FF51B2E00544B5C /* TransactionsTableViewCell.swift */; };
-		A142171A1FF5259700544B5C /* AddTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14217191FF5259700544B5C /* AddTransactionViewController.swift */; };
 		A142171D1FF52B5000544B5C /* AddTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A142171C1FF52B5000544B5C /* AddTransactionTableViewCell.swift */; };
 		A15C59C11FDC7F90003AE23E /* PricesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15C59C01FDC7F90003AE23E /* PricesViewController.swift */; };
 		A15C59C31FDC7FB7003AE23E /* AccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15C59C21FDC7FB7003AE23E /* AccountsViewController.swift */; };
@@ -19,6 +18,7 @@
 		A15C59CD1FDCA86C003AE23E /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15C59CC1FDCA86C003AE23E /* Account.swift */; };
 		A15C59CF1FDCA89E003AE23E /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15C59CE1FDCA89E003AE23E /* Transaction.swift */; };
 		A1693D671FEBC2B600BCEC9E /* FetchedResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1693D661FEBC2B600BCEC9E /* FetchedResultsTableViewController.swift */; };
+		A1A790E4200274BF00803B75 /* AddTransactionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A790E3200274BF00803B75 /* AddTransactionTableViewController.swift */; };
 		A1B7A2B21FDC442100851144 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B7A2B11FDC442100851144 /* AppDelegate.swift */; };
 		A1B7A2B71FDC442100851144 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1B7A2B51FDC442100851144 /* Main.storyboard */; };
 		A1B7A2BA1FDC442100851144 /* CryptoBalance.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A1B7A2B81FDC442100851144 /* CryptoBalance.xcdatamodeld */; };
@@ -33,7 +33,6 @@
 		A1320F271FDDDEAD00E18F05 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		A14217151FF5198900544B5C /* TransactionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsViewController.swift; sourceTree = "<group>"; };
 		A14217171FF51B2E00544B5C /* TransactionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsTableViewCell.swift; sourceTree = "<group>"; };
-		A14217191FF5259700544B5C /* AddTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionViewController.swift; sourceTree = "<group>"; };
 		A142171C1FF52B5000544B5C /* AddTransactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionTableViewCell.swift; sourceTree = "<group>"; };
 		A15C59C01FDC7F90003AE23E /* PricesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PricesViewController.swift; sourceTree = "<group>"; };
 		A15C59C21FDC7FB7003AE23E /* AccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsViewController.swift; sourceTree = "<group>"; };
@@ -42,6 +41,7 @@
 		A15C59CC1FDCA86C003AE23E /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		A15C59CE1FDCA89E003AE23E /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		A1693D661FEBC2B600BCEC9E /* FetchedResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedResultsTableViewController.swift; sourceTree = "<group>"; };
+		A1A790E3200274BF00803B75 /* AddTransactionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionTableViewController.swift; sourceTree = "<group>"; };
 		A1B7A2AE1FDC442100851144 /* CryptoBalance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptoBalance.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1B7A2B11FDC442100851144 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A1B7A2B61FDC442100851144 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -106,9 +106,9 @@
 			isa = PBXGroup;
 			children = (
 				A1B7A2B11FDC442100851144 /* AppDelegate.swift */,
+				A1B7A2B51FDC442100851144 /* Main.storyboard */,
 				A1B7A2C61FDC563E00851144 /* Model */,
 				A1B7A2C71FDC564700851144 /* Controller */,
-				A1B7A2B51FDC442100851144 /* Main.storyboard */,
 				A1B7A2C81FDC565A00851144 /* Supporting Files */,
 				A1B7A2C01FDC442100851144 /* Info.plist */,
 			);
@@ -135,7 +135,7 @@
 				A15C59C01FDC7F90003AE23E /* PricesViewController.swift */,
 				A15C59C21FDC7FB7003AE23E /* AccountsViewController.swift */,
 				A14217151FF5198900544B5C /* TransactionsViewController.swift */,
-				A14217191FF5259700544B5C /* AddTransactionViewController.swift */,
+				A1A790E3200274BF00803B75 /* AddTransactionTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -227,9 +227,9 @@
 				A15C59C11FDC7F90003AE23E /* PricesViewController.swift in Sources */,
 				A1DEA33B1FDFFE6300CD546C /* CryptoCurrency.swift in Sources */,
 				A15C59CF1FDCA89E003AE23E /* Transaction.swift in Sources */,
+				A1A790E4200274BF00803B75 /* AddTransactionTableViewController.swift in Sources */,
 				A1ED8DFC1FE1578D0091E35C /* AccountsTableViewCell.swift in Sources */,
 				A142171D1FF52B5000544B5C /* AddTransactionTableViewCell.swift in Sources */,
-				A142171A1FF5259700544B5C /* AddTransactionViewController.swift in Sources */,
 				A1693D671FEBC2B600BCEC9E /* FetchedResultsTableViewController.swift in Sources */,
 				A15C59C61FDC8017003AE23E /* Request.swift in Sources */,
 				A1B7A2BA1FDC442100851144 /* CryptoBalance.xcdatamodeld in Sources */,
