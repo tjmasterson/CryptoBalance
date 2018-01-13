@@ -31,7 +31,7 @@ class AccountsTableViewCell: UITableViewCell {
     
     private func updateUI() {
         currencyLabel?.text = account?.name
-        currencyAmountLabel?.text = String(describing: (account?.currencyAmount)!)
+        currencyAmountLabel?.text = String(describing: (account?.calculateAmountOwned())!)
         accountDollarValue?.text = currencyFormatter((account?.valueInDollars)!)
     }
     

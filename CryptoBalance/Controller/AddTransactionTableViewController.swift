@@ -7,15 +7,48 @@
 //
 
 import UIKit
+import CoreData
+
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
 
 class AddTransactionTableViewController: UITableViewController, UITextFieldDelegate {
-
+    
+    var container: NSPersistentContainer? // = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
+    var account: Account?
+    
+    lazy var numberOfTableViewRows: Int = tableView.numberOfRows(inSection: 0)
+    
+    @IBAction func cancelButton(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let gestureRecognizer = UIGestureRecognizer(target: self, action: #selector(self.view.endEditing(_:))) // HERE
-        self.view.addGestureRecognizer(gestureRecognizer)
+        //Looks for single or multiple taps.
+        self.hideKeyboardWhenTappedAround()
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(forName: Notification.Name(rawValue: "TextFieldDidUpdate"), object: nil, queue: nil, using: shouldPresentSaveButton(_:))
+        NotificationCenter.default.addObserver(forName: Notification.Name(rawValue: "SaveTransaction"), object: nil, queue: nil, using: saveTransaction(_:))
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: "TextFieldDidUpdate"), object: nil)
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -32,40 +65,77 @@ class AddTransactionTableViewController: UITableViewController, UITextFieldDeleg
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "AddTransactionTableViewCell", for: indexPath) as! AddTransactionTableViewCell
         cell.cellType = addTransactionCell
+        cell.indexPath = indexPath.item
         return cell
     }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let addTransactionCell = AddTransactionCell(rawValue: indexPath.item)!
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // let addTransactionCell = AddTransactionCell(rawValue: indexPath.item)!
         let cell = tableView.cellForRow(at: indexPath)  as! AddTransactionTableViewCell
         cell.valueTextField?.becomeFirstResponder()
-        tableView.deselectRow(at: indexPath, animated: false)
     }
     
-    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        print(indexPath)
-        return indexPath
+    private func shouldPresentSaveButton(_ notification: Notification) -> Void  {
+        var cellsWithValuesCount = 0
+        if numberOfTableViewRows > 0 {
+            for row in 0..<numberOfTableViewRows {
+                if cellHasValueAt(rowIndex: row) {
+                    cellsWithValuesCount += 1
+                }
+            }
+        }
+        if cellsWithValuesCount == numberOfTableViewRows {
+            presentSaveButton(notification.userInfo as! [String: Int])
+        }
     }
     
-    override func tableView(_ tableView: UITableView, willDeselectRowAt indexPath: IndexPath) -> IndexPath? {
-        
-        return indexPath
+    private func cellHasValueAt(rowIndex: Int) -> Bool {
+        let indexPath = IndexPath(row: rowIndex, section: 0)
+        let cell = tableView.cellForRow(at: indexPath) as! AddTransactionTableViewCell
+        return cell.valueTextField?.hasText ?? false
     }
     
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    private func presentSaveButton(_ userInfo: [String: Int]) {
+        if let indexOfFirstResponder = userInfo["indexPath"] {
+            let indexPath = IndexPath(row: indexOfFirstResponder, section: 0)
+            let cell = tableView.cellForRow(at: indexPath) as! AddTransactionTableViewCell
+            cell.addToolbarInputAccessoryView()
+        }
     }
-    */
+    
+    private func saveTransaction(_ notification: Notification) -> Void {
+        if let context = container?.viewContext {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MM dd, yyyy"
+            let transaction = Transaction(context: context)
+            for row in 0..<numberOfTableViewRows {
+                let indexPath = IndexPath(row: row, section: 0)
+                let cell = tableView.cellForRow(at: indexPath) as! AddTransactionTableViewCell
+                let type = cell.cellType!
+                switch (type) {
+                case .boughtAtPrice:
+                    transaction.boughtAtPrice = Double((cell.valueTextField?.text)!)!
+                case .currencyAmount:
+                    transaction.currencyAmount = Double((cell.valueTextField?.text)!)!
+                case .date:
+                    transaction.date = dateFormatter.date(from:(cell.valueTextField?.text)!)!
+                case .dollarsSpent:
+                    transaction.dollarsSpent = Double((cell.valueTextField?.text)!)!
+                }
+            }
+            
+            account?.addToTransactions(transaction)
+            do {
+                try context.save()
+            } catch {
+                print(error)   
+            }
+            dismiss(animated: true, completion: nil)
+        }
+    }
 
 }
+
 
 enum AddTransactionCell: Int {
     case boughtAtPrice, currencyAmount, date, dollarsSpent
@@ -89,12 +159,12 @@ enum AddTransactionCell: Int {
         }
     }
     
-    func keyboardType() -> UIKeyboardType {
+    func keyboardType() -> UIKeyboardType? {
         switch self {
         case .boughtAtPrice, .currencyAmount, .dollarsSpent:
             return UIKeyboardType.numberPad
-        default:
-            return UIKeyboardType.default
+        case .date:
+            return nil
         }
     }
     

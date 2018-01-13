@@ -23,4 +23,19 @@ class Account: NSManagedObject {
             throw error
         }
     }
+    
+    func calculateAmountOwned() -> Double {
+        var total: Double = 0
+        if let transactions = self.transactions {
+            for transaction in transactions {
+                let t = transaction as? Transaction
+                total += (t?.currencyAmount)!
+            }
+        }
+        return total
+    }
+    
+    func calculateDollarValue() -> Double {
+        return self.calculateAmountOwned() * self.cryptocurrency!.lastTradeClosed
+    }
 }

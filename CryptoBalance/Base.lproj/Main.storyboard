@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TransactionTableViewCell" rowHeight="85" id="KOF-64-zzW" customClass="TransactionsTableViewCell" customModule="CryptoBalance" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TransactionsTableViewCell" rowHeight="85" id="KOF-64-zzW" customClass="TransactionsTableViewCell" customModule="CryptoBalance" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="85"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KOF-64-zzW" id="sPx-md-9rU">
@@ -88,7 +88,7 @@
                     <navigationItem key="navigationItem" title="Transactions" id="FCg-a7-jVe">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="pdj-Qr-bRc">
                             <connections>
-                                <segue destination="zvD-TR-uf3" kind="presentation" id="sbY-cx-Ph0"/>
+                                <segue destination="zvD-TR-uf3" kind="presentation" identifier="AddTransactionSegue" id="sbY-cx-Ph0"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -106,7 +106,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddTransactionTableViewCell" id="nNh-oK-OWZ" customClass="AddTransactionTableViewCell" customModule="CryptoBalance" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="AddTransactionTableViewCell" id="nNh-oK-OWZ" customClass="AddTransactionTableViewCell" customModule="CryptoBalance" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nNh-oK-OWZ" id="MHA-kd-zRx">
@@ -126,6 +126,9 @@
                                             <nil key="textColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits"/>
+                                            <connections>
+                                                <action selector="valueTextFieldChanged:" destination="nNh-oK-OWZ" eventType="editingChanged" id="zE3-UA-Qm3"/>
+                                            </connections>
                                         </textField>
                                     </subviews>
                                 </tableViewCellContentView>
@@ -141,7 +144,13 @@
                             <outlet property="delegate" destination="bee-2m-nAD" id="oIL-Dz-zvE"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Yc4-bx-6Bb"/>
+                    <navigationItem key="navigationItem" id="Yc4-bx-6Bb">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Gnd-JJ-cdH">
+                            <connections>
+                                <action selector="cancelButton:" destination="bee-2m-nAD" id="LEU-hz-PmG"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0kM-ZF-rgT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -167,7 +176,7 @@
                                             <rect key="frame" x="20" y="20" width="335" height="130"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="WGz-LU-IUy">
-                                                    <rect key="frame" x="0.0" y="7" width="155.5" height="116"/>
+                                                    <rect key="frame" x="0.0" y="36" width="155.5" height="58"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BTC" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kek-aH-zdo" userLabel="Currency Key">
                                                             <rect key="frame" x="0.0" y="0.0" width="45" height="29"/>
@@ -181,22 +190,10 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Asset Value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oTZ-GD-Fsn" userLabel="Asset Total Key">
-                                                            <rect key="frame" x="0.0" y="58" width="89.5" height="29"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dollars Invested" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2b3-E3-vR1" userLabel="Dollars Invested Key">
-                                                            <rect key="frame" x="0.0" y="87" width="122" height="29"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
                                                     </subviews>
                                                 </stackView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="Bi7-G3-G0b">
-                                                    <rect key="frame" x="179.5" y="7" width="155.5" height="116"/>
+                                                    <rect key="frame" x="179.5" y="36" width="155.5" height="58"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7,450" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fpk-Ze-EpQ" userLabel="Currency Value">
                                                             <rect key="frame" x="94" y="0.0" width="61.5" height="29"/>
@@ -206,18 +203,6 @@
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.6800203040" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ko1-7c-4bm" userLabel="Amount Owned Value">
                                                             <rect key="frame" x="38.5" y="29" width="117" height="29"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5,453" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SWQ-4l-HEy" userLabel="Asset Total Value">
-                                                            <rect key="frame" x="110.5" y="58" width="45" height="29"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3,450" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yx0-5h-x40" userLabel="Dollars Invested Value">
-                                                            <rect key="frame" x="110.5" y="87" width="45" height="29"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -237,12 +222,8 @@
                                 <connections>
                                     <outlet property="amountOwnedKeyLabel" destination="Yln-qz-tWG" id="smz-OC-bZM"/>
                                     <outlet property="amountOwnedValueLabel" destination="ko1-7c-4bm" id="K6l-Az-3wc"/>
-                                    <outlet property="assetTotalKeyLabel" destination="oTZ-GD-Fsn" id="dQa-1d-hyG"/>
-                                    <outlet property="assetTotalValueLabel" destination="SWQ-4l-HEy" id="DVN-9g-Zdq"/>
                                     <outlet property="currencyKeyLabel" destination="kek-aH-zdo" id="GpP-8i-T8U"/>
                                     <outlet property="currencyValueLabel" destination="fpk-Ze-EpQ" id="btw-Jn-By5"/>
-                                    <outlet property="dollarsInvestedKeyLabel" destination="2b3-E3-vR1" id="VdW-AW-EnI"/>
-                                    <outlet property="dollarsInvestedValueLabel" destination="Yx0-5h-x40" id="u5z-u1-Zqb"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

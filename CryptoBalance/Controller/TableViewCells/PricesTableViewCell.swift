@@ -14,14 +14,11 @@ class PricesTableViewCell: UITableViewCell {
     // Keys on the left hand side of cell
     @IBOutlet weak var currencyKeyLabel: UILabel!
     @IBOutlet weak var amountOwnedKeyLabel: UILabel!
-    @IBOutlet weak var assetTotalKeyLabel: UILabel!
-    @IBOutlet weak var dollarsInvestedKeyLabel: UILabel!
     
     // Values on the right hand side of cell matching to key labels
     @IBOutlet weak var currencyValueLabel: UILabel!
     @IBOutlet weak var amountOwnedValueLabel: UILabel!
-    @IBOutlet weak var assetTotalValueLabel: UILabel!
-    @IBOutlet weak var dollarsInvestedValueLabel: UILabel!
+
     
     var cyrptoCurrency: CryptoCurrency? {
         didSet {
@@ -41,9 +38,6 @@ class PricesTableViewCell: UITableViewCell {
     private func updateUI() {
         currencyKeyLabel?.text = cyrptoCurrency?.name!
         currencyValueLabel?.text = currencyFormatter((cyrptoCurrency?.lastTradeClosed)!)
-        amountOwnedValueLabel?.text = currencyFormatter((cyrptoCurrency?.account?.currencyAmount)!)
-        assetTotalValueLabel?.text = currencyFormatter((cyrptoCurrency?.account?.valueInDollars)!)
-        dollarsInvestedValueLabel?.text = currencyFormatter((cyrptoCurrency?.account?.dollarsInvested)!)
     }
     
 

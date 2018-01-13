@@ -11,7 +11,11 @@ import CoreData
 
 class TransactionsViewController: FetchedResultsTableViewController {
 
-    var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
+    var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer {
+        didSet {
+            updateUI()
+        }
+    }
     
     var fetchedResultsController: NSFetchedResultsController<Transaction>?
     
@@ -45,6 +49,19 @@ class TransactionsViewController: FetchedResultsTableViewController {
             fetchedResultsController?.delegate = self
             try? fetchedResultsController?.performFetch()
             tableView.reloadData()
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        var destinationViewController = segue.destination
+        if let navigationController = destinationViewController as? UINavigationController {
+            destinationViewController = navigationController.visibleViewController ?? destinationViewController
+        }
+        
+        if let addTransactionTableViewController = destinationViewController as? AddTransactionTableViewController {
+            addTransactionTableViewController.container = container
+            addTransactionTableViewController.account = account
         }
     }
 }

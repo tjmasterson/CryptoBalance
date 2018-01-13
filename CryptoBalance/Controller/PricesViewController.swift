@@ -53,6 +53,8 @@ class PricesViewController: FetchedResultsTableViewController {
             DispatchQueue.main.async {
                 if let currencies = results {
                     self?.updateDatabase(with: currencies as! [Currency])
+                } else {
+                    print(error)
                 }
             }
         }

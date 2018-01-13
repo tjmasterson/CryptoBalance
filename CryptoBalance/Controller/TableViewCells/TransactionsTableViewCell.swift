@@ -32,6 +32,12 @@ class TransactionsTableViewCell: UITableViewCell {
     }
     
     private func updateUI() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        amountLabel?.text = String(describing: (transaction?.currencyAmount)!)
+        priceLabel?.text = currencyFormatter((transaction?.boughtAtPrice)!)
         dollarsLabel?.text = currencyFormatter((transaction?.dollarsSpent)!)
+        dateLabel?.text = dateFormatter.string(from: (transaction?.date)!)
+        
     }
 }
