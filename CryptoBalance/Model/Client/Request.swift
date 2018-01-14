@@ -10,7 +10,6 @@ import UIKit
 import Foundation
 
 public class Request: NSObject {
-    
     public let session = URLSession.shared
     public let requestType: RequestType
     
@@ -67,7 +66,6 @@ public class Request: NSObject {
         let url = buildURL(withPathExtension: pathExtension, andParameters: parameters)
         let request = requestWithHeaders(url, method: "GET")
         let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
-  
             guard self.responseInSuccessRange(response, task: "fetch", handler: handler) else {
                 return
             }
@@ -78,7 +76,7 @@ public class Request: NSObject {
             if self.requestType == .isAlive {
                 return handler(nil, nil)
             }
-            
+
             do {
                 let currencyData = try JSONDecoder().decode(CurrencyData.self, from: data)
                 var currency = currencyData.currency!
@@ -89,7 +87,6 @@ public class Request: NSObject {
                                task: "fetch",
                                handler: handler)
             }
-            
         }
         task.resume()
     }
