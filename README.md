@@ -1,5 +1,4 @@
 # CryptoBalance
-=================
 
 CryptoBalance is a simple app that can be used to view certain prices and keep track of purchases and the amount spent at the time of the buy.
 
