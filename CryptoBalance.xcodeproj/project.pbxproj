@@ -11,6 +11,8 @@
 		A14217161FF5198900544B5C /* TransactionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14217151FF5198900544B5C /* TransactionsViewController.swift */; };
 		A14217181FF51B2E00544B5C /* TransactionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14217171FF51B2E00544B5C /* TransactionsTableViewCell.swift */; };
 		A142171D1FF52B5000544B5C /* AddTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A142171C1FF52B5000544B5C /* AddTransactionTableViewCell.swift */; };
+		A15AAC7D200DFD2200C29D09 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15AAC7C200DFD2200C29D09 /* ViewController.swift */; };
+		A15AAC7F200DFEC900C29D09 /* ErrorNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15AAC7E200DFEC900C29D09 /* ErrorNotificationViewController.swift */; };
 		A15C59C11FDC7F90003AE23E /* PricesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15C59C01FDC7F90003AE23E /* PricesViewController.swift */; };
 		A15C59C31FDC7FB7003AE23E /* AccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15C59C21FDC7FB7003AE23E /* AccountsViewController.swift */; };
 		A15C59C61FDC8017003AE23E /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15C59C51FDC8017003AE23E /* Request.swift */; };
@@ -34,6 +36,8 @@
 		A14217151FF5198900544B5C /* TransactionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsViewController.swift; sourceTree = "<group>"; };
 		A14217171FF51B2E00544B5C /* TransactionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsTableViewCell.swift; sourceTree = "<group>"; };
 		A142171C1FF52B5000544B5C /* AddTransactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionTableViewCell.swift; sourceTree = "<group>"; };
+		A15AAC7C200DFD2200C29D09 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A15AAC7E200DFEC900C29D09 /* ErrorNotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorNotificationViewController.swift; sourceTree = "<group>"; };
 		A15C59C01FDC7F90003AE23E /* PricesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PricesViewController.swift; sourceTree = "<group>"; };
 		A15C59C21FDC7FB7003AE23E /* AccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsViewController.swift; sourceTree = "<group>"; };
 		A15C59C51FDC8017003AE23E /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
@@ -72,6 +76,7 @@
 				A1ED8DFB1FE1578D0091E35C /* AccountsTableViewCell.swift */,
 				A14217171FF51B2E00544B5C /* TransactionsTableViewCell.swift */,
 				A142171C1FF52B5000544B5C /* AddTransactionTableViewCell.swift */,
+				A15AAC7C200DFD2200C29D09 /* ViewController.swift */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -136,6 +141,7 @@
 				A15C59C21FDC7FB7003AE23E /* AccountsViewController.swift */,
 				A14217151FF5198900544B5C /* TransactionsViewController.swift */,
 				A1A790E3200274BF00803B75 /* AddTransactionTableViewController.swift */,
+				A15AAC7E200DFEC900C29D09 /* ErrorNotificationViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -225,6 +231,7 @@
 				A1320F281FDDDEAD00E18F05 /* Currency.swift in Sources */,
 				A15C59C31FDC7FB7003AE23E /* AccountsViewController.swift in Sources */,
 				A15C59C11FDC7F90003AE23E /* PricesViewController.swift in Sources */,
+				A15AAC7F200DFEC900C29D09 /* ErrorNotificationViewController.swift in Sources */,
 				A1DEA33B1FDFFE6300CD546C /* CryptoCurrency.swift in Sources */,
 				A15C59CF1FDCA89E003AE23E /* Transaction.swift in Sources */,
 				A1A790E4200274BF00803B75 /* AddTransactionTableViewController.swift in Sources */,
@@ -233,6 +240,7 @@
 				A1693D671FEBC2B600BCEC9E /* FetchedResultsTableViewController.swift in Sources */,
 				A15C59C61FDC8017003AE23E /* Request.swift in Sources */,
 				A1B7A2BA1FDC442100851144 /* CryptoBalance.xcdatamodeld in Sources */,
+				A15AAC7D200DFD2200C29D09 /* ViewController.swift in Sources */,
 				A1B7A2B21FDC442100851144 /* AppDelegate.swift in Sources */,
 				A15C59C81FDC95E1003AE23E /* CurrencyData.swift in Sources */,
 				A14217181FF51B2E00544B5C /* TransactionsTableViewCell.swift in Sources */,

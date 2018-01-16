@@ -44,7 +44,7 @@ class AddTransactionTableViewCell: UITableViewCell, UITextFieldDelegate {
         dateFormatter.dateStyle = DateFormatter.Style.medium
         dateFormatter.timeStyle = DateFormatter.Style.none
         valueTextField?.text = dateFormatter.string(from: sender.date)
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "TextFieldDidUpdate"), object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "TextFieldDidUpdate"), object: self, userInfo: ["indexPath": self.indexPath!])
 
     }
    func addToolbarInputAccessoryView() {
